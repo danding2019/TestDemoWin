@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDemoWinFormModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bus_SendMsg">
+          <Key>
+            <PropertyRef Name="TransId" />
+          </Key>
+          <Property Name="TransId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SendUserId" Type="int" Nullable="false" />
+          <Property Name="SendMsg" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="SendTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_UserMsg">
+          <Key>
+            <PropertyRef Name="TransId" />
+          </Key>
+          <Property Name="TransId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PassWord" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNum" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rla_FriendRelation">
+          <Key>
+            <PropertyRef Name="TransId" />
+          </Key>
+          <Property Name="TransId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Deleted" Type="int" Nullable="false" />
+          <Property Name="ParentUserTransId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“TestDemoWinForm.dbo.ViewFriendRelation”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ViewFriendRelation">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="FriendUserId" />
+          </Key>
+          <Property Name="UserId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Deleted" Type="int" Nullable="false" />
+          <Property Name="FriendUserId" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Function Name="Proc_GetTransId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="TestDemoWinFormModelStoreContainer">
+          <EntitySet Name="Bus_SendMsg" EntityType="Self.Bus_SendMsg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log_UserMsg" EntityType="Self.Log_UserMsg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rla_FriendRelation" EntityType="Self.Rla_FriendRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewFriendRelation" EntityType="Self.ViewFriendRelation" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFriendRelation].[UserId] AS [UserId], 
+    [ViewFriendRelation].[Deleted] AS [Deleted], 
+    [ViewFriendRelation].[FriendUserId] AS [FriendUserId]
+    FROM [dbo].[ViewFriendRelation] AS [ViewFriendRelation]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDemoWinFormModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bus_SendMsg">
+          <Key>
+            <PropertyRef Name="TransId" />
+          </Key>
+          <Property Name="TransId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SendUserId" Type="Int32" Nullable="false" />
+          <Property Name="SendMsg" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SendTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Log_UserMsg">
+          <Key>
+            <PropertyRef Name="TransId" />
+          </Key>
+          <Property Name="TransId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PassWord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MobileNum" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Rla_FriendRelation">
+          <Key>
+            <PropertyRef Name="TransId" />
+          </Key>
+          <Property Name="TransId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Deleted" Type="Int32" Nullable="false" />
+          <Property Name="ParentUserTransId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="TestDemoWinFormEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bus_SendMsg" EntityType="Self.Bus_SendMsg" />
+          <EntitySet Name="Log_UserMsg" EntityType="Self.Log_UserMsg" />
+          <EntitySet Name="Rla_FriendRelation" EntityType="Self.Rla_FriendRelation" />
+          <FunctionImport Name="Proc_GetTransId" ReturnType="Collection(Int64)">
+          <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="ViewFriendRelation" EntityType="TestDemoWinFormModel.ViewFriendRelation" />
+        </EntityContainer>
+        <EntityType Name="ViewFriendRelation">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="FriendUserId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Deleted" Type="Int32" Nullable="false" />
+          <Property Name="FriendUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDemoWinFormModelStoreContainer" CdmEntityContainer="TestDemoWinFormEntities">
+          <EntitySetMapping Name="Bus_SendMsg">
+            <EntityTypeMapping TypeName="TestDemoWinFormModel.Bus_SendMsg">
+              <MappingFragment StoreEntitySet="Bus_SendMsg">
+                <ScalarProperty Name="TransId" ColumnName="TransId" />
+                <ScalarProperty Name="SendUserId" ColumnName="SendUserId" />
+                <ScalarProperty Name="SendMsg" ColumnName="SendMsg" />
+                <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_UserMsg">
+            <EntityTypeMapping TypeName="TestDemoWinFormModel.Log_UserMsg">
+              <MappingFragment StoreEntitySet="Log_UserMsg">
+                <ScalarProperty Name="TransId" ColumnName="TransId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="MobileNum" ColumnName="MobileNum" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rla_FriendRelation">
+            <EntityTypeMapping TypeName="TestDemoWinFormModel.Rla_FriendRelation">
+              <MappingFragment StoreEntitySet="Rla_FriendRelation">
+                <ScalarProperty Name="ParentUserTransId" ColumnName="ParentUserTransId" />
+                <ScalarProperty Name="TransId" ColumnName="TransId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Proc_GetTransId" FunctionName="TestDemoWinFormModel.Store.Proc_GetTransId" />
+          <EntitySetMapping Name="ViewFriendRelation">
+            <EntityTypeMapping TypeName="TestDemoWinFormModel.ViewFriendRelation">
+              <MappingFragment StoreEntitySet="ViewFriendRelation">
+                <ScalarProperty Name="FriendUserId" ColumnName="FriendUserId" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
